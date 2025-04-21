@@ -106,7 +106,7 @@ class ActorNetwork(nn.Module):
         self.optimizer = optim.Adam(self.parameters(), lr=learning_rate)
         self.device = T.device("cuda:0" if T.cuda.is_available() else "cpu")
 
-        print(f"Created Actor Network on deice: {self.device}")
+        print(f"Created Actor Network on device: {self.device}")
 
         self.to(self.device)
 

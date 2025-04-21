@@ -15,8 +15,8 @@ if __name__ == "__main__":
 
     env = suite.make(
         env_name,
-        robot=["Panda"],
-        controller_config=suite.load_controller_config(
+        robots=["Panda"],
+        controller_configs=suite.load_controller_config(
             default_controller="JOINT_VELOCITY"
         ),
         has_renderer=True,

@@ -160,24 +160,31 @@ class Agent:
 
     def choose_action(self, observation, validation=False):
         """
-        Determines and returns the action for a given state.
+            Determines and returns the action for a given observation.
 
-        **Parameters:**
-        - `state`: This represents the current information the agent has about the environment.
-          It could be an array of numbers representing positions, velocities, or any relevant data.
-        - `explore`: A boolean flag indicating whether the agent should add random noise to its
-          action to encourage exploration. Exploration is important early in training.
+            **Parameters:**
+            - `observation`: The current observation from the environment, which represents
+              the agent's perceived state. Typically, a vector of relevant data like positions,
+              velocities, or other features.
+            - `validation`: A boolean flag to indicate if the agent is in validation mode
+              (i.e., evaluating without exploration). In validation mode, no random noise
+              is added to the action.
 
-        **Returns:**
-        - An action selected by the actor network or a random action (during warm-up/exploration).
+            **Returns:**
+            - A calculated action, which is either:
+              - A random action (during warm-up, when the agent is exploring the action space), or
+              - An action derived from the trained actor network, potentially with added noise
+                for exploration (if not in validation mode).
 
-        **Detailed Explanation:**
-        - Initially, if the agent is in its "warm-up" phase, it explores by sampling random actions.
-        - After warm-up, the actor network predicts an action. This action represents what the
-          agent thinks is the best option for the given state.
-        - Noise is added to allow the agent to explore minor variations of actions, making it
-          better at learning subtle improvements.
-        """
+            **Detailed Explanation:**
+            - During the warm-up phase (`self.timestep < self.warmup`), the agent chooses a random action
+              with noise applied to encourage exploration.
+            - After the warm-up phase, the actor network predicts an action based on the observation.
+              Noise is added to the predicted action during training to allow for exploration of
+              alternative actions.
+            - During validation, exploration noise is disabled, allowing the agent to act deterministically.
+            - The final action is clamped to ensure it remains within valid bounds.
+            """
 
         if self.timestep < self.warmup and validation is False:
             mu = T.tensor(

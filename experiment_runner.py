@@ -40,7 +40,7 @@ def run_experiment(experiment_id, hyperparams):
     )
 
     writer = SummaryWriter(f"logs/experiment_{experiment_id}")
-    n_games = 1000  # Number of games per experiment
+    n_games = 250  # Number of games per experiment
 
     best_score = 0
     episode_identifier = f"experiment_{experiment_id} - " + " - ".join(
@@ -70,18 +70,19 @@ def run_experiment(experiment_id, hyperparams):
 
 
 def main():
-    # Define hyperparameter search space
+    # Define hyperparameter search space focusing on most critical parameters
     hyperparameter_space = {
-        "alpha": [0.001, 0.0005, 0.0001],  # Actor learning rate
-        "beta": [0.001, 0.0005, 0.0001],  # Critic learning rate
-        "tau": [0.005, 0.001, 0.0005],  # Target network update rate
-        "layer1_size": [256, 512],  # First hidden layer size
-        "layer2_size": [128, 256],  # Second hidden layer size
-        "batch_size": [64, 128, 256],  # Batch size
-        "gamma": [0.99, 0.95],  # Discount factor
-        "noise": [0.1, 0.2],  # Exploration noise
-        "update_actor_interval": [2, 4],  # Actor update interval
-        "warmup": [1000, 2000],  # Warmup period
+        "alpha": [0.001, 0.0003, 0.0001],    # Actor learning rate
+        "beta": [0.001, 0.0003, 0.0001],     # Critic learning rate
+        "noise": [0.1, 0.2],                 # Exploration noise
+        "batch_size": [64, 128],             # Batch size
+        # Keep other parameters at their default values
+        "tau": [0.005],
+        "layer1_size": [256],
+        "layer2_size": [128],
+        "gamma": [0.99],
+        "update_actor_interval": [2],
+        "warmup": [1000]
     }
 
     # Create directory for logs if it doesn't exist

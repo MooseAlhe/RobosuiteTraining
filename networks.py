@@ -6,8 +6,6 @@ import torch as T  # Main PyTorch library
 import torch.nn.functional as F  # Contains activation functions and other functional operations
 import torch.nn as nn  # Neural network modules
 import torch.optim as optim  # Optimization algorithms
-from torch.distributions.normal import Normal  # For handling normal distributions
-import numpy as np  # For numerical operations
 
 
 class CriticNetwork(nn.Module):

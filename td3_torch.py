@@ -1,4 +1,3 @@
-import os
 import torch as T
 import torch.nn.functional as F
 import numpy as np
@@ -48,7 +47,7 @@ class Agent:
 
         **Instance Attributes (What this Agent "knows" about itself):**
         - Neural Networks (`actor`, `critic_1`, `critic_2`, etc.):
-          Deep learning models for decision making and evaluations.
+          Deep learning models for decision-making and evaluations.
         - Replay Memory (`memory`): Stores interaction data (state, action, reward, next state).
         - Learning Attributes:
           Batch sizes, learning frequencies, exploration details, and warm-up steps.
@@ -70,7 +69,7 @@ class Agent:
         self.max_action = env.action_space.high
         self.min_action = env.action_space.low
 
-        # Replay memory stores the agent's past experiences (state, action, reward, next state, etc.).
+        # Replay memory stores the agent's experiences (state, action, reward, next state, etc.).
         # This helps to break the correlation between consecutive experiences by randomly sampling
         # "mini-batches" from memory during training.
         self.memory = ReplayBuffer(max_size, input_dims, n_actions)

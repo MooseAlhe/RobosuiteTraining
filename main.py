@@ -7,6 +7,7 @@ import robosuite as suite
 from robosuite.wrappers import GymWrapper
 from networks import CriticNetwork, ActorNetwork
 from buffer import ReplayBuffer
+from td3_torch import Agent
 
 if __name__ == "__main__":
 
@@ -30,8 +31,49 @@ if __name__ == "__main__":
 
     env = GymWrapper(env)
 
-    ###
-    critic_network = CriticNetwork([8], 8)
-    actor_network = ActorNetwork([8], fc1_dims=8)
+    alpha = 0.001
+    beta = 0.001
+    batch_size = 120
+    layer1_size = 256
+    layer2_size = 128
 
-    replay_buffer = ReplayBuffer(8, [8], 8)
+    agent = Agent(
+        alpha=alpha,
+        beta=beta,
+        input_dims=env.observation_space.shape,
+        tau=0.005,
+        env=env,
+        n_actions=env.action_space.shape[0],
+        layer1_size=layer1_size,
+        layer2_size=layer2_size,
+        batch_size=batch_size,
+    )
+
+    writer = SummaryWriter("logs")
+    n_games = 10000
+
+    best_score = 0
+    episode_identifier = f"0 - actor_learning_rate: {alpha} - critic_learning_rate: {beta} - layer1_size: {layer1_size} - layer2_size: {layer2_size}"
+
+    agent.load_models()
+
+    for i in range(n_games):
+        observation = env.reset()
+        done = False
+        score = 0
+
+        while not done:
+            action = agent.choose_action(observation)
+            next_observation, reward, done, info = env.step(action)
+            score += reward
+            agent.remember(observation, action, reward, next_observation, done)
+            agent.learn()
+            observation = next_observation
+
+        writer.add_scalar(f"Score - {episode_identifier}", score, global_step=i)
+
+        if not i % 10:
+            agent.save_models()
+            print("Models saved")
+
+        print(f"Episode: {i} Score: {score}")

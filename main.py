@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
     alpha = 0.001
     beta = 0.001
-    batch_size = 120
+    batch_size = 128
     layer1_size = 256
     layer2_size = 128
 
@@ -45,10 +45,10 @@ if __name__ == "__main__":
     )
 
     writer = SummaryWriter("logs")
-    n_games = 10000
+    n_games = 1000
 
     best_score = 0
-    episode_identifier = f"0 - actor_learning_rate: {alpha} - critic_learning_rate: {beta} - layer1_size: {layer1_size} - layer2_size: {layer2_size}"
+    episode_identifier = f"1 - actor_learning_rate: {alpha} - critic_learning_rate: {beta} - layer1_size: {layer1_size} - layer2_size: {layer2_size}"
 
     agent.load_models()
 

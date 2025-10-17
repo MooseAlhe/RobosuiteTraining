@@ -187,18 +187,3 @@ Episode: 51  Score: 137.2
 Episode: 0  Score: 142.9
 Episode: 1  Score: 150.3
 ```
-
----
-
-## 🧾 License
-
-This project is licensed under the **MIT License**.  
-You are free to modify, distribute, and use it for research or educational purposes.
-
----
-
-## 🙌 Acknowledgements
-
-- [Robosuite](https://robosuite.ai/) — Simulation framework for robot learning  
-- [PyTorch](https://pytorch.org/) — Deep learning framework  
-- [TD3 Paper (Fujimoto et al., 2018)](https://arxiv.org/abs/1802.09477)
